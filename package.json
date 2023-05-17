@@ -1,0 +1,35 @@
+{
+  "name": "cursor-style-manager",
+  "version": "1.0.0",
+  "description": "Shared cursor styles for Wonderland Engine",
+  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "wonderlandengine": {},
+  "keywords": [
+    "wonderland-engine"
+  ],
+  "contributors": [
+    {
+      "name": "Playko",
+      "url": "https://www.playko.com/"
+    },
+    {
+      "name": "rafern",
+      "email": "rafael@playko.com"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@wonderlandengine/api": "^1.0.0",
+    "@wonderlandengine/components": "^1.0.3",
+    "gl-matrix": "^3.4.3",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "@wonderlandengine/api": ">= 1.0.0"
+  }
+}

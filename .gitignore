@@ -1,0 +1,8 @@
+/dist/
+node_modules/
+.editor/
+/example-project/package-lock.json
+/example-project/cache/
+/example-project/deploy/
+*.sublime-project
+*.sublime-workspace
