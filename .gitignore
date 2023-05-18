@@ -6,4 +6,4 @@ node_modules/
 /example-project/deploy/
 *.sublime-project
 *.sublime-workspace
-cursor-style-manager-*.tgz
+cursor-style-manager-wle-*.tgz
