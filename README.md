@@ -8,14 +8,14 @@ conflicts.
 
 1. Install this library as a dependency: `npm install cursor-style-manager-wle`
 2. Add a `cursor-style-manager` component to the scene
-  - A dedicated object named `CursorStyleManager` is recommended so that it's easier to pick in the editor
+    - A dedicated object named `CursorStyleManager` is recommended so that it's easier to pick in the editor
 3. Change your `mouse-look` component to a `csm-mouse-look` component if it's present in the scene
-  - Make sure to set the `cursorStyleManagerObject` property to the object that contains the `cursor-style-manager` component
+    - Make sure to set the `cursorStyleManagerObject` property to the object that contains the `cursor-style-manager` component
 4. Change your custom button components so that they extend `CSMComponent` instead of `Component`, and implement the `onButtonClick` method
-  - Make sure to set the `cursorStyleManagerObject` property
+    - Make sure to set the `cursorStyleManagerObject` property
 5. If you rely on the `styleCursor` property in your `cursor` component, then replace the `cursor` component with a `csm-cursor` component
-  - Note that other components that reference this component will now have to get the `csm-cursor` component instead of the `cursor` component
-  - If this is not possible, then `styleCursor` can't be used. Consider making incompatible components extend the `CSMComponent` class instead of relying on `styleCursor`
+    - Note that other components that reference this component will now have to get the `csm-cursor` component instead of the `cursor` component
+    - If this is not possible, then `styleCursor` can't be used. Consider making incompatible components extend the `CSMComponent` class instead of relying on `styleCursor`
 
 ## Components
 
