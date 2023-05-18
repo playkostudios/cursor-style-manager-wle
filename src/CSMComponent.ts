@@ -41,8 +41,14 @@ export abstract class CSMComponent extends Component {
             if (style) {
                 this.engine.canvas.style.cursor = style;
             } else {
-                this.engine.canvas.style.cursor = 'initial';
+                this.engine.canvas.style.cursor = 'default';
             }
+        }
+    }
+
+    override onDeactivate(): void {
+        if (this.cursorStyleManager) {
+            this.cursorStyleManager.clearStyle(this);
         }
     }
 }

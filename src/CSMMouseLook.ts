@@ -98,7 +98,7 @@ export class CSMMouseLookComponent extends CSMComponent {
                 );
             }
             canvas.addEventListener('mousedown', (e): false | void => {
-                if (e.button == this.mouseButtonIndex) {
+                if (e.button == this.mouseButtonIndex && this.active) {
                     this.mouseDown = true;
                     this.setCursorStyle('grabbing');
                     if (e.button == 1) {
@@ -116,4 +116,10 @@ export class CSMMouseLookComponent extends CSMComponent {
             });
         }
     }
+
+     override onDeactivate(): void {
+         super.onDeactivate();
+
+         this.mouseDown = false;
+     }
 }

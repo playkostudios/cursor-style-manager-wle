@@ -34,6 +34,8 @@ export abstract class CSMButtonComponent extends CSMComponent {
     }
 
     override onDeactivate(): void {
+        super.onDeactivate();
+
         if (this.cursorTarget) {
             this.cursorTarget.onHover.remove(this.hoverCallback);
             this.cursorTarget.onUnhover.remove(this.unhoverCallback);

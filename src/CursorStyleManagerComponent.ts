@@ -1,4 +1,4 @@
-import { Component } from '@wonderlandengine/api';
+import { Component, Property } from '@wonderlandengine/api';
 
 import type { ICursorStyleManager } from './ICursorStyleManager';
 
@@ -48,9 +48,13 @@ const ALLOWED_CURSOR_STYLES = [
  */
 export class CursorStyleManagerComponent extends Component implements ICursorStyleManager {
     static override TypeName = 'cursor-style-manager';
+    static override Properties = {
+        defaultCursorStyle: Property.string('default'),
+    };
 
     requestedPointerStyles!: Array<string>;
     requestedPointerStyleKeys!: Array<unknown>;
+    defaultCursorStyle!: string;
 
     override init() {
         this.requestedPointerStyles = [];
@@ -148,7 +152,7 @@ export class CursorStyleManagerComponent extends Component implements ICursorSty
 
         const newStyle = this.requestedPointerStyles[0];
         if (hadZeroIdx && oldStyle !== newStyle) {
-            this.cursorStyleHandler(newStyle ?? 'initial');
+            this.cursorStyleHandler(newStyle ?? this.defaultCursorStyle);
         }
     }
 }
