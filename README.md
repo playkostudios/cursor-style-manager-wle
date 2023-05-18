@@ -62,3 +62,23 @@ This is just the default implementation of a cursor style manager. Custom cursor
 style managers with extra functionality can be created, so long as they follow
 the ICursorStyleManager interface. For most use-cases, this default
 implementation is good enough.
+
+## Credits
+
+This project is being developed at Playko ([website](https://www.playko.com/),
+[github](https://github.com/playkostudios)) and uses the following open-source
+projects:
+- [@wonderlandengine/api](https://www.npmjs.com/package/@wonderlandengine/api) licensed under the MIT license
+- [@wonderlandengine/components](https://www.npmjs.com/package/@wonderlandengine/components) licensed under the MIT license
+- [gl-matrix](https://github.com/toji/gl-matrix) licensed under the MIT license
+- [typescript](https://github.com/Microsoft/TypeScript) licensed under the Apache 2.0 license
+
+This project also uses modified components from the Wonderland Engine components
+library
+([@wonderlandengine/components](https://www.npmjs.com/package/@wonderlandengine/components)):
+- `csm-mouse-look` is a modified `mouse-look` component
+- `csm-cursor` is a modified `cursor` component
+
+This project also uses a simplified version of
+[lazy-widgets](https://www.npmjs.com/package/lazy-widgets)'s (MIT license)
+cursor style sharing system.
