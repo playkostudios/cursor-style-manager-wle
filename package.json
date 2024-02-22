@@ -1,6 +1,6 @@
 {
   "name": "cursor-style-manager-wle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Shared cursor styles for Wonderland Engine",
   "main": "dist/index.js",
   "exports": "./dist/index.js",

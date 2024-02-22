@@ -34,16 +34,12 @@ export class CSMMouseLookComponent extends CSMComponent {
     // working values
     currentRotationX!: number;
     currentRotationY!: number;
-    origin!: Float32Array;
-    parentOrigin!: Float32Array;
     mouseDown!: boolean;
 
     override init() {
         super.init();
         this.currentRotationY = 0;
         this.currentRotationX = 0;
-        this.origin = new Float32Array(3);
-        this.parentOrigin = new Float32Array(3);
         this.mouseDown = false;
     }
 
@@ -94,16 +90,23 @@ export class CSMMouseLookComponent extends CSMComponent {
             });
             canvas.addEventListener('mouseup', (e) => {
                 if (e.button == this.mouseButtonIndex) {
-                    this.mouseDown = false;
-                    this.setCursorStyle(null);
+                    this.mouseUp();
                 }
+            });
+            canvas.addEventListener('mouseleave', (_e) => {
+                this.mouseUp();
             });
         }
     }
 
-     override onDeactivate(): void {
-         super.onDeactivate();
+    override onDeactivate(): void {
+        super.onDeactivate();
+        this.mouseUp();
+    }
 
-         this.mouseDown = false;
-     }
+    private mouseUp() {
+        if (!this.mouseDown) return;
+        this.mouseDown = false;
+        if (this.requireMouseDown) this.setCursorStyle(null);
+    }
 }
