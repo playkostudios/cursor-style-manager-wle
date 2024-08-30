@@ -1,67 +1,85 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
-devDependencies:
-  '@wonderlandengine/api':
-    specifier: ^1.0.0
-    version: 1.0.0
-  '@wonderlandengine/components':
-    specifier: ^1.0.3
-    version: 1.0.3(@wonderlandengine/api@1.0.0)
-  gl-matrix:
-    specifier: ^3.4.3
-    version: 3.4.3
-  typescript:
-    specifier: ^5.0.4
-    version: 5.0.4
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      '@wonderlandengine/api':
+        specifier: ~1.1.5
+        version: 1.1.5
+      '@wonderlandengine/components':
+        specifier: ~1.0.6
+        version: 1.0.7(@wonderlandengine/api@1.1.5)
+      gl-matrix:
+        specifier: ^3.4.3
+        version: 3.4.3
+      typescript:
+        specifier: ^5.0.4
+        version: 5.0.4
 
 packages:
 
-  /@types/earcut@2.1.1:
+  '@types/earcut@2.1.1':
     resolution: {integrity: sha512-w8oigUCDjElRHRRrMvn/spybSMyX8MTkKA5Dv+tS1IE/TgmNZPqUYtvYBXGY8cieSE66gm+szeK+bnbxC2xHTQ==}
-    dev: true
 
-  /@types/webxr@0.5.2:
+  '@types/webxr@0.5.2':
     resolution: {integrity: sha512-szL74BnIcok9m7QwYtVmQ+EdIKwbjPANudfuvDrAF8Cljg9MKUlIoc1w5tjj9PMpeSH3U1Xnx//czQybJ0EfSw==}
-    dev: true
 
-  /@wonderlandengine/api@1.0.0:
-    resolution: {integrity: sha512-aqjeIgNTa823quW/QYhrTlo6gRMgY9ZT1Q+Oh48K1AFzljb1eo6qb53h1989BKkTIZ5kFhKpltQRt/NBR88dxg==}
-    dependencies:
-      '@types/webxr': 0.5.2
-      wasm-feature-detect: 1.5.1
-    dev: true
+  '@wonderlandengine/api@1.1.5':
+    resolution: {integrity: sha512-1QMoOqiD/4AizAtxmoM0Vpjmmp+Yn5AU7FsqMPM5uvKpzHEYFo/cZRE53ippV49f7SG4UFABVbg+hU8ROg415g==}
 
-  /@wonderlandengine/components@1.0.3(@wonderlandengine/api@1.0.0):
-    resolution: {integrity: sha512-Swp8Lh1Arwm+V4y3IUL2WcXiIJWb8QeRS40d1/kmIjAIcXLQnv6SBv6zoVgXVVZAg3gb6eHxb8+1RGwEHPtihA==}
+  '@wonderlandengine/components@1.0.7':
+    resolution: {integrity: sha512-2RVg/aEFbOuNALlM2fYlmM+nbtOOI4o+L3+2CsmTbTx8M/qm9ky6A8v5+BN17+37t6EDC9lB1DuQc8sgedF6vw==}
     peerDependencies:
       '@wonderlandengine/api': ^1.0.0
-    dependencies:
-      '@types/earcut': 2.1.1
-      '@types/webxr': 0.5.2
-      '@wonderlandengine/api': 1.0.0
-      earcut: 2.2.4
-      gl-matrix: 3.4.3
-      howler: 2.2.3
-    dev: true
 
-  /earcut@2.2.4:
+  earcut@2.2.4:
     resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
-    dev: true
 
-  /gl-matrix@3.4.3:
+  gl-matrix@3.4.3:
     resolution: {integrity: sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==}
-    dev: true
 
-  /howler@2.2.3:
+  howler@2.2.3:
     resolution: {integrity: sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==}
-    dev: true
 
-  /typescript@5.0.4:
+  typescript@5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
     hasBin: true
-    dev: true
 
-  /wasm-feature-detect@1.5.1:
+  wasm-feature-detect@1.5.1:
     resolution: {integrity: sha512-GHr23qmuehNXHY4902/hJ6EV5sUANIJC3R/yMfQ7hWDg3nfhlcJfnIL96R2ohpIwa62araN6aN4bLzzzq5GXkg==}
-    dev: true
+
+snapshots:
+
+  '@types/earcut@2.1.1': {}
+
+  '@types/webxr@0.5.2': {}
+
+  '@wonderlandengine/api@1.1.5':
+    dependencies:
+      '@types/webxr': 0.5.2
+      wasm-feature-detect: 1.5.1
+
+  '@wonderlandengine/components@1.0.7(@wonderlandengine/api@1.1.5)':
+    dependencies:
+      '@types/earcut': 2.1.1
+      '@types/webxr': 0.5.2
+      '@wonderlandengine/api': 1.1.5
+      earcut: 2.2.4
+      gl-matrix: 3.4.3
+      howler: 2.2.3
+
+  earcut@2.2.4: {}
+
+  gl-matrix@3.4.3: {}
+
+  howler@2.2.3: {}
+
+  typescript@5.0.4: {}
+
+  wasm-feature-detect@1.5.1: {}

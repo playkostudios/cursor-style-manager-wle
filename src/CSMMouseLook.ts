@@ -24,6 +24,8 @@ export class CSMMouseLookComponent extends CSMComponent {
         mouseButtonIndex: {type: Type.Int},
         /** Enables pointer lock on "mousedown" event on canvas */
         pointerLockOnClick: {type: Type.Bool, default: false},
+        /** Should pointer events be listened to instead of mouse events */
+        listenToPointerInsteadOfMouse: {type: Type.Bool, default: false},
     };
 
     // property values
@@ -31,6 +33,7 @@ export class CSMMouseLookComponent extends CSMComponent {
     requireMouseDown!: number;
     mouseButtonIndex!: number;
     pointerLockOnClick!: number;
+    listenToPointerInsteadOfMouse!: boolean;
     // working values
     currentRotationX!: number;
     currentRotationY!: number;
@@ -44,7 +47,7 @@ export class CSMMouseLookComponent extends CSMComponent {
     }
 
     override start() {
-        document.addEventListener('mousemove', (e) => {
+        document.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointermove' : 'mousemove', (e) => {
             if (this.active && (this.mouseDown || !this.requireMouseDown)) {
                 this.currentRotationX += (-this.sensitivity * e.movementY) * ROT_MUL;
                 this.currentRotationY += (-this.sensitivity * e.movementX) * ROT_MUL;
@@ -77,7 +80,7 @@ export class CSMMouseLookComponent extends CSMComponent {
                     false
                 );
             }
-            canvas.addEventListener('mousedown', (e): false | void => {
+            canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerdown' : 'mousedown', (e): false | void => {
                 if (e.button == this.mouseButtonIndex && this.active) {
                     this.mouseDown = true;
                     this.setCursorStyle('grabbing');
@@ -88,12 +91,12 @@ export class CSMMouseLookComponent extends CSMComponent {
                     }
                 }
             });
-            canvas.addEventListener('mouseup', (e) => {
+            canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerup' : 'mouseup', (e) => {
                 if (e.button == this.mouseButtonIndex) {
                     this.mouseUp();
                 }
             });
-            canvas.addEventListener('mouseleave', (_e) => {
+            canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerleave' : 'mouseleave', (_e) => {
                 this.mouseUp();
             });
         }

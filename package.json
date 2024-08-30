@@ -1,6 +1,6 @@
 {
   "name": "cursor-style-manager-wle",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Shared cursor styles for Wonderland Engine",
   "main": "dist/index.js",
   "exports": "./dist/index.js",
@@ -27,12 +27,13 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@wonderlandengine/api": "^1.0.0",
-    "@wonderlandengine/components": "^1.0.3",
+    "@wonderlandengine/api": "~1.1.5",
+    "@wonderlandengine/components": "~1.0.6",
     "gl-matrix": "^3.4.3",
     "typescript": "^5.0.4"
   },
   "peerDependencies": {
-    "@wonderlandengine/api": ">= 1.0.0"
+    "@wonderlandengine/api": ">= 1.1.5",
+    "@wonderlandengine/components": ">= 1.0.6"
   }
 }
