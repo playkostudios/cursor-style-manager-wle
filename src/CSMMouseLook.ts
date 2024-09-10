@@ -1,9 +1,13 @@
 import { Type } from '@wonderlandengine/api';
-import { quat } from 'gl-matrix';
+import { quat, vec3 } from 'gl-matrix';
 import { CSMComponent } from './CSMComponent.js';
 
+const Y_AXIS = new Float32Array([0, 1, 0]);
+const Z_AXIS = new Float32Array([0, 0, 1]);
+const TMP_VEC3 = new Float32Array(3);
 const TEMP_ROT = new Float32Array(4);
-const ROT_MUL = 180 / Math.PI / 100;
+const RAD_TO_DEG = 180 / Math.PI;
+const ROT_MUL = RAD_TO_DEG / 100;
 
 /**
  * Similar to the official mouse-look component, but with cursor-style-manager
@@ -24,8 +28,13 @@ export class CSMMouseLookComponent extends CSMComponent {
         mouseButtonIndex: {type: Type.Int},
         /** Enables pointer lock on "mousedown" event on canvas */
         pointerLockOnClick: {type: Type.Bool, default: false},
-        /** Should pointer events be listened to instead of mouse events */
+        /** Should pointer events be listened to instead of mouse events? */
         listenToPointerInsteadOfMouse: {type: Type.Bool, default: false},
+        /**
+         * Should an improved drag algorithm be used, which can be combined with
+         * other camera rotating methods?
+         */
+        statelessDrag: {type: Type.Bool, default: false},
     };
 
     // property values
@@ -34,6 +43,7 @@ export class CSMMouseLookComponent extends CSMComponent {
     mouseButtonIndex!: number;
     pointerLockOnClick!: number;
     listenToPointerInsteadOfMouse!: boolean;
+    statelessDrag!: boolean;
     // working values
     currentRotationX!: number;
     currentRotationY!: number;
@@ -49,6 +59,13 @@ export class CSMMouseLookComponent extends CSMComponent {
     override start() {
         document.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointermove' : 'mousemove', (e) => {
             if (this.active && (this.mouseDown || !this.requireMouseDown)) {
+                if (this.statelessDrag) {
+                    this.object.getRotationLocal(TEMP_ROT);
+                    vec3.transformQuat(TMP_VEC3, Z_AXIS, TEMP_ROT);
+                    this.currentRotationX = Math.asin(-vec3.dot(TMP_VEC3, Y_AXIS)) * RAD_TO_DEG;
+                    this.currentRotationY = Math.atan2(TMP_VEC3[0], TMP_VEC3[2]) * RAD_TO_DEG;
+                }
+
                 this.currentRotationX += (-this.sensitivity * e.movementY) * ROT_MUL;
                 this.currentRotationY += (-this.sensitivity * e.movementX) * ROT_MUL;
                 // 89 deg instead of 90 so that there are no camera glitches
