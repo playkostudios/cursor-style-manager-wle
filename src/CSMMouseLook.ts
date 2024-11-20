@@ -35,6 +35,8 @@ export class CSMMouseLookComponent extends CSMComponent {
          * other camera rotating methods?
          */
         statelessDrag: {type: Type.Bool, default: false},
+        /** Should an improved method of getting mouse movement be used? */
+        betterPointerMovement: {type: Type.Bool, default: false},
     };
 
     // property values
@@ -44,21 +46,35 @@ export class CSMMouseLookComponent extends CSMComponent {
     pointerLockOnClick!: number;
     listenToPointerInsteadOfMouse!: boolean;
     statelessDrag!: boolean;
+    betterPointerMovement!: boolean;
     // working values
     currentRotationX!: number;
     currentRotationY!: number;
     mouseDown!: boolean;
+    lastCursorX!: number;
+    lastCursorY!: number;
 
     override init() {
         super.init();
         this.currentRotationY = 0;
         this.currentRotationX = 0;
         this.mouseDown = false;
+        this.lastCursorX = 0;
+        this.lastCursorY = 0;
+    }
+
+    protected updateLastCursorPos(e: MouseEvent) {
+        this.lastCursorX = e.screenX;
+        this.lastCursorY = e.screenY;
     }
 
     override start() {
         document.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointermove' : 'mousemove', (e) => {
             if (this.active && (this.mouseDown || !this.requireMouseDown)) {
+                const deltaX = this.betterPointerMovement ? (e.screenX - this.lastCursorX) : e.movementX;
+                const deltaY = this.betterPointerMovement ? (e.screenY - this.lastCursorY) : e.movementY;
+                this.updateLastCursorPos(e);
+
                 if (this.statelessDrag) {
                     this.object.getRotationLocal(TEMP_ROT);
                     vec3.transformQuat(TMP_VEC3, Z_AXIS, TEMP_ROT);
@@ -66,8 +82,8 @@ export class CSMMouseLookComponent extends CSMComponent {
                     this.currentRotationY = Math.atan2(TMP_VEC3[0], TMP_VEC3[2]) * RAD_TO_DEG;
                 }
 
-                this.currentRotationX += (-this.sensitivity * e.movementY) * ROT_MUL;
-                this.currentRotationY += (-this.sensitivity * e.movementX) * ROT_MUL;
+                this.currentRotationX += (-this.sensitivity * deltaY) * ROT_MUL;
+                this.currentRotationY += (-this.sensitivity * deltaX) * ROT_MUL;
                 // 89 deg instead of 90 so that there are no camera glitches
                 // when looking straight down/up
                 this.currentRotationX = Math.max(-89, Math.min(89, this.currentRotationX));
@@ -78,7 +94,8 @@ export class CSMMouseLookComponent extends CSMComponent {
 
         const canvas = this.engine.canvas;
         if (this.pointerLockOnClick) {
-            canvas.addEventListener('mousedown', () => {
+            canvas.addEventListener('mousedown', (e) => {
+                this.updateLastCursorPos(e);
                 canvas.requestPointerLock =
                     canvas.requestPointerLock ||
                     (canvas as { mozRequestPointerLock?: CallableFunction }).mozRequestPointerLock ||
@@ -98,6 +115,7 @@ export class CSMMouseLookComponent extends CSMComponent {
                 );
             }
             canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerdown' : 'mousedown', (e): false | void => {
+                this.updateLastCursorPos(e);
                 if (e.button == this.mouseButtonIndex && this.active) {
                     this.mouseDown = true;
                     this.setCursorStyle('grabbing');
@@ -109,6 +127,7 @@ export class CSMMouseLookComponent extends CSMComponent {
                 }
             });
             canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerup' : 'mouseup', (e) => {
+                this.updateLastCursorPos(e);
                 if (e.button == this.mouseButtonIndex) {
                     this.mouseUp();
                 }
