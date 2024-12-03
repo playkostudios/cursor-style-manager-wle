@@ -53,6 +53,7 @@ export class CSMMouseLookComponent extends CSMComponent {
     mouseDown!: boolean;
     lastCursorX!: number;
     lastCursorY!: number;
+    lastPointerId!: number;
 
     override init() {
         super.init();
@@ -61,6 +62,7 @@ export class CSMMouseLookComponent extends CSMComponent {
         this.mouseDown = false;
         this.lastCursorX = 0;
         this.lastCursorY = 0;
+        this.lastPointerId = -1;
     }
 
     protected updateLastCursorPos(e: MouseEvent) {
@@ -68,8 +70,13 @@ export class CSMMouseLookComponent extends CSMComponent {
         this.lastCursorY = e.screenY;
     }
 
+    protected isActivePointer(e: PointerEvent | MouseEvent) {
+        return !this.requireMouseDown || !this.listenToPointerInsteadOfMouse || (e as PointerEvent).pointerId === this.lastPointerId;
+    }
+
     override start() {
         document.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointermove' : 'mousemove', (e) => {
+            if (!this.isActivePointer(e)) return;
             if (this.active && (this.mouseDown || !this.requireMouseDown)) {
                 const deltaX = this.betterPointerMovement ? (e.screenX - this.lastCursorX) : e.movementX;
                 const deltaY = this.betterPointerMovement ? (e.screenY - this.lastCursorY) : e.movementY;
@@ -115,6 +122,10 @@ export class CSMMouseLookComponent extends CSMComponent {
                 );
             }
             canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerdown' : 'mousedown', (e): false | void => {
+                if (this.listenToPointerInsteadOfMouse) {
+                    this.lastPointerId = (e as PointerEvent).pointerId;
+                }
+
                 this.updateLastCursorPos(e);
                 if (e.button == this.mouseButtonIndex && this.active) {
                     this.mouseDown = true;
@@ -127,12 +138,14 @@ export class CSMMouseLookComponent extends CSMComponent {
                 }
             });
             canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerup' : 'mouseup', (e) => {
+                if (!this.isActivePointer(e)) return;
                 this.updateLastCursorPos(e);
                 if (e.button == this.mouseButtonIndex) {
                     this.mouseUp();
                 }
             });
-            canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerleave' : 'mouseleave', (_e) => {
+            canvas.addEventListener(this.listenToPointerInsteadOfMouse ? 'pointerleave' : 'mouseleave', (e) => {
+                if (!this.isActivePointer(e)) return;
                 this.mouseUp();
             });
         }
@@ -144,6 +157,7 @@ export class CSMMouseLookComponent extends CSMComponent {
     }
 
     private mouseUp() {
+        this.lastPointerId = -1;
         if (!this.mouseDown) return;
         this.mouseDown = false;
         if (this.requireMouseDown) this.setCursorStyle(null);
